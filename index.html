@@ -5,6 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ANTI FREEZE</title>
     <link rel="icon" href="icon.jpg" type="image/jpeg">
+    <script>
+        function isMobile() {
+            return window.innerWidth <= 800 || /Mobi|Android/i.test(navigator.userAgent);
+        }
+    
+        window.onload = function() {
+            if (isMobile()) {
+                // Redirect to the mobile-specific loading page
+                window.location.href = 'mobile_loading.html';
+            }
+        };
+    </script>
     <style>
         body {
             margin: 0;
