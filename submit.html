@@ -1,46 +1,185 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Submit Page</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background: url('bg_submit.png') no-repeat center center fixed; /* Use local image as background */
-            background-size: cover; /* Ensure the image covers the entire background */
-        }
-        .menu { /* Submit Contact Archive */
-            font-size: 1.75vw; /* Match body text size */
-            color: black; /* Text color */
-            position: absolute;
-            bottom: 5%; /* Position the menu near the bottom */
-            left: 50%; /* Center the menu horizontally */
-            transform: translateX(-50%); /* Adjust for exact centering */
-            font-family: "Lucida Sans Typewriter", "Lucida Console", monospace; /* Ensure consistent font */
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Submit Page</title>
 
-        .menu a {
-            color: black;
-            text-decoration: none;
-            margin: 0 10px;
-        }
+  <!-- Include EmailJS SDK -->
+  <script type="text/javascript" src="https://cdn.emailjs.com/sdk/3.2/email.min.js"></script>
+  <script type="text/javascript">
+    (function(){
+      emailjs.init({
+        publicKey: "l_EgpDqcxufWSeQDW",
+      });
+    })();
+  </script>
 
-        .menu a:hover {
-            text-decoration: underline;
-        }
-    </style>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background: url('bg_submit.png') no-repeat center center fixed; /* Use local image as background */
+      background-size: cover; /* Ensure the image covers the entire background */
+    }
+
+    h1 {
+      font-size: 5vw; /* Make font size responsive to screen width */
+      color: white; /* Text color */
+      font-weight: normal; /* Ensure no bold styling */
+      font-family: Arial;
+      position: absolute;
+      top: 5%; /* Position near the top */
+      left: 50%; /* Center horizontally */
+      transform: translateX(-50%); /* Adjust for exact centering */
+    }
+
+    .menu { /* Submit Contact Archive */
+      font-size: 1.75vw; /* Match body text size */
+      color: white; /* Text color */
+      position: absolute;
+      bottom: 5%; /* Position near the bottom */
+      left: 50%; /* Center horizontally */
+      transform: translateX(-50%); /* Adjust for exact centering */
+      font-family: "Lucida Sans Typewriter", "Lucida Console", monospace; /* Ensure consistent font */
+    }
+
+    .menu a {
+      color: white;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+
+    .menu a:hover {
+      text-decoration: underline;
+    }
+
+    form {
+      color: white;
+      font-family: "Lucida Sans Typewriter", "Lucida Console", monospace;
+      text-align: center;
+    }
+
+    button {
+      display: block;
+      margin: auto;
+      color: black;
+      font-family: "Lucida Sans Typewriter", "Lucida Console", monospace;
+    }
+
+    input {
+      color: black;
+    }
+    
+    /* Hide the default file input */
+    input[type="file"] {
+      display: none;
+    }
+
+    /* Style the custom file input label */
+    .custom-file-label {
+      display: inline-block;
+      background-color: #444;
+      color: white;
+      padding: 5px 5px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: "Lucida Sans Typewriter", "Lucida Console", monospace;
+      font-size: 0.7vw;
+    }
+  </style>
 </head>
 <body>
-    <h1>Submit</h1>
-    <div class="menu">
-        <a href="index.html">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
-        <a href="contact.html">Contact</a>&nbsp;&nbsp;&nbsp;&nbsp;
-        <a href="archive.html">Archive</a>
-    </div>
+  <h1>SUBMIT</h1>
+  <form id="upload-form">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required>
+    <br><br>
+    
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+    <br><br>
+    
+    <!-- Custom file input -->
+    <label for="file">Select File:</label>
+    <!-- The actual file input is hidden -->
+    <input type="file" id="file" name="file" accept=".jpg,.jpeg,.png,.gif,.pdf" required>
+    <!-- This label will act as the file upload button -->
+    <label for="file" class="custom-file-label">Choose File</label>
+    <br><br>
+    
+    <button type="submit">Submit</button>
+  </form>
+      
+  <!-- Include the JavaScript that handles file upload and EmailJS sending -->
+  <script>
+    // Listen for the form submit event.
+    document.getElementById('upload-form').addEventListener('submit', function(e) {
+      e.preventDefault();  // Prevent the default form submission
+      
+      // Retrieve the input values.
+      var name = document.getElementById('name').value;
+      var email = document.getElementById('email').value;
+      var fileInput = document.getElementById('file');
+      var file = fileInput.files[0];
+      
+      if (!file) {
+        alert("Please select a file.");
+        return;
+      }
+      
+      // Create a FormData object to hold the file.
+      var formData = new FormData();
+      formData.append('file', file);
+      
+      // *** Step 2: Upload the File to the Backend ***
+      // Replace 'upload.php' with your backend file-upload endpoint.
+      fetch('upload.php', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        // Expecting your backend to return JSON like: { "fileLink": "https://yourdomain.com/uploads/filename.ext" }
+        var fileLink = data.fileLink;
+        if (!fileLink) {
+          throw new Error("File upload failed or no file link returned.");
+        }
+        
+        // *** Step 3: Prepare EmailJS Template Parameters ***
+        // These keys should match the placeholders in your EmailJS template.
+        var templateParams = {
+          name: name,              // will replace {{name}} in your template
+          email: email,            // will replace {{email}}
+          file_link: fileLink      // will replace {{file_link}} (adjust the key if your template uses a different placeholder)
+        };
+        
+        // *** Step 4: Send the Email via EmailJS ***
+        // Replace 'YOUR_SERVICE_ID' and 'YOUR_TEMPLATE_ID' with your actual IDs from EmailJS.
+        emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams)
+        .then(function(response) {
+          console.log('SUCCESS!', response.status, response.text);
+          alert("Email sent successfully!");
+        }, function(error) {
+          console.log('FAILED...', error);
+          alert("There was an error sending the email.");
+        });
+      })
+      .catch(error => {
+        console.error('Error during file upload or email sending:', error);
+        alert("An error occurred: " + error.message);
+      });
+    });
+  </script>
+
+  <div class="menu">
+    <a href="index.html">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="submit.html">Submit</a>&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="contact.html">Contact</a>&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="archive.html">Archive</a>
+  </div>
 </body>
 </html>
