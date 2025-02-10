@@ -76,13 +76,15 @@
     
     /* Hide the default file input */
     input[type="file"] {
-      display: none;
+        display: block; /* Make sure it’s visible */
+        visibility: visible; /* Ensure it's not hidden */
+        opacity: 1; /* Some styles set opacity to 0 to hide */
     }
 
     /* Style the custom file input label */
     .custom-file-label {
       display: inline-block;
-      background-color: #444;
+      background-color: #081c3c;
       color: white;
       padding: 5px 5px;
       border-radius: 4px;
@@ -90,90 +92,90 @@
       font-family: "Lucida Sans Typewriter", "Lucida Console", monospace;
       font-size: 0.7vw;
     }
+
+    .custom-submit-label {
+      display: inline-block;
+      background-color: white;
+      color: black;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: "Lucida Sans Typewriter", "Lucida Console", monospace;
+      font-size: 1vw;
+      border: black;
+      padding: 5px 10px;
+    }
   </style>
 </head>
 <body>
   <h1>SUBMIT</h1>
   <form id="upload-form">
-    <label for="name">Name:</label>
-    <input type="text" id="name" name="name" required>
-    <br><br>
-    
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email" required>
-    <br><br>
-    
-    <!-- Custom file input -->
-    <label for="file">Select File:</label>
-    <!-- The actual file input is hidden -->
-    <input type="file" id="file" name="file" accept=".jpg,.jpeg,.png,.gif,.pdf" required>
-    <!-- This label will act as the file upload button -->
-    <label for="file" class="custom-file-label">Choose File</label>
-    <br><br>
-    
-    <button type="submit">Submit</button>
-  </form>
-      
-  <!-- Include the JavaScript that handles file upload and EmailJS sending -->
-  <script>
-    // Listen for the form submit event.
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+        <br><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        <br><br>
+
+        <label for="file">Select File:</label>
+        <input type="file" id="file" name="file" class="custom-file-label" accept=".jpg,.jpeg,.png,.gif,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.wav,.mp3,.mp4,.avi,.flv,.mov,.wmv,.webm,.mkv,.zip,.rar,.7z,.tar,.gz,.xz" required>
+        <br><br>
+
+        <button type="submit" class="custom-submit-label">Submit</button>
+    </form>
+
+    <script>
     document.getElementById('upload-form').addEventListener('submit', function(e) {
-      e.preventDefault();  // Prevent the default form submission
-      
-      // Retrieve the input values.
-      var name = document.getElementById('name').value;
-      var email = document.getElementById('email').value;
-      var fileInput = document.getElementById('file');
-      var file = fileInput.files[0];
-      
-      if (!file) {
-        alert("Please select a file.");
-        return;
-      }
-      
-      // Create a FormData object to hold the file.
-      var formData = new FormData();
-      formData.append('file', file);
-      
-      // *** Step 2: Upload the File to the Backend ***
-      // Replace 'upload.php' with your backend file-upload endpoint.
-      fetch('upload.php', {
-        method: 'POST',
-        body: formData
-      })
-      .then(response => response.json())
-      .then(data => {
-        // Expecting your backend to return JSON like: { "fileLink": "https://yourdomain.com/uploads/filename.ext" }
-        var fileLink = data.fileLink;
-        if (!fileLink) {
-          throw new Error("File upload failed or no file link returned.");
+        e.preventDefault();
+
+        var name = document.getElementById('name').value;
+        var email = document.getElementById('email').value;
+        var fileInput = document.getElementById('file');
+        var file = fileInput.files[0];
+
+        if (!file) {
+            alert("Please select a file.");
+            return;
         }
-        
-        // *** Step 3: Prepare EmailJS Template Parameters ***
-        // These keys should match the placeholders in your EmailJS template.
-        var templateParams = {
-          name: name,              // will replace {{name}} in your template
-          email: email,            // will replace {{email}}
-          file_link: fileLink      // will replace {{file_link}} (adjust the key if your template uses a different placeholder)
-        };
-        
-        // *** Step 4: Send the Email via EmailJS ***
-        // Replace 'YOUR_SERVICE_ID' and 'YOUR_TEMPLATE_ID' with your actual IDs from EmailJS.
-        emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams)
-        .then(function(response) {
-          console.log('SUCCESS!', response.status, response.text);
-          alert("Email sent successfully!");
-        }, function(error) {
-          console.log('FAILED...', error);
-          alert("There was an error sending the email.");
+
+        var formData = new FormData();
+        formData.append('file', file);
+
+        // 🔗 Replace with your Google Apps Script Web App URL
+        var googleAppsScriptURL = "https://script.google.com/macros/s/AKfycbxGvwhnvVl0mOhadqrGQOeHbW7Fz0o0A7dEpmtZy7_ajFc3Ee02C9TP-AfJ1Imctfvo/exec";
+
+        fetch(googleAppsScriptURL, {
+            method: "POST",
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.fileLink) {
+                var templateParams = {
+                    name: name,
+                    email: email,
+                    file_link: data.fileLink
+                };
+
+                emailjs.send('service_6gp6pvy', 'template_i41o90w', templateParams)
+                    .then(response => {
+                        console.log('SUCCESS!', response.status, response.text);
+                        alert("File uploaded and email sent successfully!");
+                    }, error => {
+                        console.log('FAILED...', error);
+                        alert("Email sending failed.");
+                    });
+            } else {
+                throw new Error("File upload failed.");
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert("An error occurred: " + error.message);
         });
-      })
-      .catch(error => {
-        console.error('Error during file upload or email sending:', error);
-        alert("An error occurred: " + error.message);
-      });
     });
-  </script>
+    </script>
+
 
   <div class="menu">
     <a href="index.html">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;

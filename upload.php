@@ -1,7 +1,7 @@
 <?php
 // Define allowed file extensions and maximum file size (in bytes)
-$allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'pdf'];
-$maxFileSize = 2 * 1024 * 1024; // 2 MB
+$allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', "wav", "mp3", "mp4", "avi", "flv", "mov", "wmv", "webm", "mkv", "zip", "rar", "7z", "tar", "gz", "xz"];
+$maxFileSize = 100 * 1024 * 1024; // 100 MB
 
 $uploadDir = 'uploads/';
 
