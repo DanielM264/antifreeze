@@ -2,56 +2,69 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <!-- Ensures the page scales properly on mobile devices -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Submit Page</title>
   <script>
         function isMobile() {
             return window.innerWidth < 720 || /Mobi|Android/i.test(navigator.userAgent);
         }
-    
+
         window.onload = function() {
-            if (isMobile()) {
-                // Redirect to the mobile-specific loading page
-                window.location.href = 'm_submit.html';
+            if (!isMobile()) {
+                /* Redirect to the desktop version */
+                window.location.href = 'submit.html';
             }
         };
   </script>
   <style>
+    /* Base styles for larger screens */
     body {
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       height: 100vh;
       margin: 0;
-      background: url('bg_submit.png') no-repeat center center fixed;
-      background-size: cover;
+      background: url('bg_submit.png') no-repeat right top, #080424;
+      background-size: 200%;
+      background-position: calc(90%) top right;
     }
 
     h1 {
-      font-size: 5vw;
+      font-size: 17vw;
       color: white;
       font-weight: normal;
-      font-family: Arial;
+      font-family: Arial, sans-serif;
       position: absolute;
-      top: 5%;
+      top: 0vw;
       left: 50%;
       transform: translateX(-50%);
     }
 
     .menu {
-      font-size: 1.75vw;
-      color: white;
-      position: absolute;
-      bottom: 5%;
+      font-size: 7vw;
+      font-family: "Lucida Sans Typewriter", "Lucida Console", monospace;
+      position: fixed;
+      bottom: 20px;
       left: 50%;
       transform: translateX(-50%);
-      font-family: "Lucida Sans Typewriter", "Lucida Console", monospace;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 17vw;
+      width: 100%;
+    }
+
+    .menu .top-row {
+      display: flex;
+      gap: 2vw;
     }
 
     .menu a {
       color: white;
       text-decoration: none;
-      margin: 0 10px;
     }
 
     .menu a:hover {
@@ -62,7 +75,9 @@
       color: white;
       font-family: "Lucida Sans Typewriter", "Lucida Console", monospace;
       text-align: center;
-      font-size: 1.1vw;
+      font-size: 4vw;
+      width: 90%;
+      margin: 0 auto;
     }
 
     button {
@@ -81,9 +96,9 @@
       color: white;
       background-color: #081c3c;
       border: none;
-      padding: 5px 10px;
       border-radius: 4px;
-      font-size: 1.1vw;
+      font-size: 4vw;
+      padding: 8px 12px;
     }
     
     /* Hide the default file input */
@@ -96,11 +111,11 @@
       display: inline-block;
       background-color: #081c3c;
       color: white;
-      padding: 5px 10px;
       border-radius: 4px;
       cursor: pointer;
       font-family: "Lucida Sans Typewriter", "Lucida Console", monospace;
-      font-size: 1.1vw;
+      font-size: 4vw;
+      padding: 8px 12px;
     }
 
     .custom-submit-label {
@@ -110,9 +125,9 @@
       border-radius: 4px;
       cursor: pointer;
       font-family: "Lucida Sans Typewriter", "Lucida Console", monospace;
-      font-size: 1.3vw;
-      border: black;
-      padding: 5px 10px;
+      border: none;
+      font-size: 4vw;
+      padding: 8px 12px;
     }
 
     /* Spinner styles */
@@ -171,9 +186,7 @@
 
       // Get the submit button element and update its appearance to show loading.
       var submitButton = document.getElementById('submit-button');
-      // Save original text so we can restore it later.
       var originalButtonText = submitButton.innerHTML;
-      // Change button content to include the spinner and "Loading..."
       submitButton.innerHTML = '<span class="spinner"></span> Sending...';
       submitButton.disabled = true;
 
@@ -184,8 +197,7 @@
         // Set the URL of your published Google Apps Script web app:
         var googleAppsScriptURL = "https://script.google.com/macros/s/AKfycbzYUyQSHb3uTzeTMZdKilGmdOFEaKZ9Wdm9D9V45f3NZBQWOThFlUEAZtYPq_tpX16l/exec";
 
-        // Prepare URL query parameters:
-        // We send the file's name and MIME type, plus the extra fields.
+        // Prepare URL query parameters (sending the file's name, MIME type, and extra fields):
         var qs = new URLSearchParams({
           filename: file.name,
           mimeType: file.type,
@@ -200,10 +212,8 @@
         })
         .then(response => response.json())
         .then(data => {
-          // Restore button appearance after receiving a response.
           submitButton.innerHTML = originalButtonText;
           submitButton.disabled = false;
-          // Show a popup based solely on success or failure.
           if (data.success) {
             alert("Submission uploaded successfully!");
           } else if (data.error) {
@@ -212,7 +222,6 @@
         })
         .catch(error => {
           console.error('Error:', error);
-          // Restore button appearance if there's an error.
           submitButton.innerHTML = originalButtonText;
           submitButton.disabled = false;
           alert("Submission Failed: " + error.message);
@@ -221,11 +230,12 @@
     });
   </script>
 
-  <div class="menu">
-    <a href="index.html">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="submit.html">Submit</a>&nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="contact.html">Contact</a>&nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="archive.html">Archive</a>
-  </div>
+    <div class="menu">
+        <div class="top-row">
+            <a href="m_index.html">HOME</a>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="contact.html">CONTACT</a>
+        </div>
+        <a href="archive.html">ARCHIVE</a>
+    </div>  
 </body>
 </html>
