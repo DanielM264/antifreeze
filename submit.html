@@ -4,77 +4,74 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Submit Page</title>
+
+  <!-- Mobile redirect script -->
   <script>
-        function isMobile() {
-            return window.innerWidth < 720 || /Mobi|Android/i.test(navigator.userAgent);
-        }
-    
-        window.onload = function() {
-            if (isMobile()) {
-                // Redirect to the mobile-specific loading page
-                window.location.href = 'm_submit.html';
-            }
-        };
+    function isMobile() {
+      return window.innerWidth < 720 || /Mobi|Android/i.test(navigator.userAgent);
+    }
+    window.onload = function() {
+      if (isMobile()) {
+        window.location.href = 'm_submit.html';
+      }
+    };
   </script>
+
+  <!-- Page styles -->
   <style>
+    /* Base styles */
     body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
       margin: 0;
+      padding: 0;
       background: url('bg_submit.png') no-repeat center center fixed;
       background-size: cover;
     }
 
-    h1 {
+    /* Main container */
+    .container {
+      width: 45%;
+      max-width: 100vw;
+      margin: 20px auto;
+      padding-bottom: 80px;
+    }
+
+    /* Header styles */
+    header h1 {
       font-size: 5vw;
       color: white;
       font-weight: normal;
       font-family: Arial;
-      position: absolute;
-      top: 5%;
-      left: 50%;
-      transform: translateX(-50%);
+      text-align: center;
+      margin-bottom: 20px;
     }
 
-    .menu {
-      font-size: 1.75vw;
+    .blurb {
+      font-size: 1vw;
       color: white;
-      position: absolute;
-      bottom: 5%;
-      left: 50%;
-      transform: translateX(-50%);
-      font-family: "Lucida Sans Typewriter", "Lucida Console", monospace;
+      font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+      text-align: center;
+      line-height: 1.5;
+      margin-bottom: 20px;
     }
 
-    .menu a {
-      color: white;
-      text-decoration: none;
-      margin: 0 10px;
-    }
-
-    .menu a:hover {
-      text-decoration: underline;
+    /* Form styles */
+    main {
+      text-align: center;
     }
 
     form {
       color: white;
       font-family: "Lucida Sans Typewriter", "Lucida Console", monospace;
-      text-align: center;
       font-size: 1.1vw;
     }
 
-    button {
-      display: block;
-      margin: auto;
-      color: black;
-      font-family: "Lucida Sans Typewriter", "Lucida Console", monospace;
-      font-size: 1.1vw;
-      border: none;
-      padding: 5px 10px;
-      border-radius: 4px;
-      cursor: pointer;
+    form div {
+      margin-bottom: 1vw;
+    }
+
+    label {
+      display: inline;
+      margin-bottom: 0px;
     }
 
     input {
@@ -84,14 +81,24 @@
       padding: 5px 10px;
       border-radius: 4px;
       font-size: 1.1vw;
+      width: 40%;
+      max-width: 50vw;
     }
-    
-    /* Hide the default file input */
+
+    /* Custom file input styling */
     input[type="file"] {
       display: none;
     }
 
-    /* Style the custom file input label */
+    select {
+      color: white;
+      background-color: #081c3c;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 4px;
+      font-size: 1.1vw;
+    }
+
     .custom-file-label {
       display: inline-block;
       background-color: #081c3c;
@@ -99,23 +106,66 @@
       padding: 5px 10px;
       border-radius: 4px;
       cursor: pointer;
-      font-family: "Lucida Sans Typewriter", "Lucida Console", monospace;
+      font-family: "Arial", sans-serif;
       font-size: 1.1vw;
+      margin-top: 5px;
     }
 
+    /* Textarea styles */
+    #rationale {
+      width: 100%;
+      background-color: #081c3c;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 4px;
+      font-family: "Lucida Sans Typewriter", "Lucida Console", monospace;
+      font-size: 1.1vw;
+      resize: none;
+      display: block;
+    }
+
+    /* Custom scrollbar styles */
+    #rationale::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    #rationale::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    #rationale::-webkit-scrollbar-thumb {
+      background: #080424;
+      border-radius: 4px;
+    }
+
+    #rationale::-webkit-scrollbar-thumb:hover {
+      background: #052144;
+    }
+
+    #rationale {
+      scrollbar-width: thin;
+      scrollbar-color: #080424 transparent;
+    }
+
+    #word-count {
+      margin-top: 5px;
+    }
+
+    /* Submit button styles */
     .custom-submit-label {
       display: inline-block;
-      background-color: white;
-      color: #081c3c;
+      background-color: #081c3c;
+      color: white;
       border-radius: 4px;
       cursor: pointer;
       font-family: "Lucida Sans Typewriter", "Lucida Console", monospace;
       font-size: 1.3vw;
-      border: black;
-      padding: 5px 10px;
+      border: 1px solid black;
+      padding: 5px 15px;
     }
 
-    /* Spinner styles */
+    /* Loading spinner styles */
     .spinner {
       display: inline-block;
       width: 16px;
@@ -132,100 +182,391 @@
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
+
+    /* Footer menu styles */
+    .menu {
+      position: fixed;
+      object-position: center;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: #020520;
+      color: white;
+      text-align: center;
+      font-family: "Lucida Sans Typewriter", "Lucida Console", monospace;
+      font-size: 1.75vw;
+      padding: 10px 0;
+    }
+
+    .menu a {
+      color: white;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+
+    .menu a:hover {
+      text-decoration: underline;
+    }
+
+    .error-message {
+      color: #ff6b6b;
+      font-size: 0.9vw;
+      margin-top: 3px;
+      height: 0;
+      font-family: Arial, sans-serif;
+      transition: height 0.2s;
+      overflow: hidden;
+    }
+
+    .error-message:not(:empty) {
+      height: 25px;
+    }
+
+    /* Add a class for invalid fields that will only be applied after submission */
+    .field-invalid {
+      border: 1px solid #ff6b6b !important;
+    }
   </style>
 </head>
 <body>
-  <h1>SUBMIT</h1>
-  <form id="upload-form">
-    <label for="name">Name:</label>
-    <input type="text" id="name" name="name" required>
-    <br><br>
+  <div class="container">
+    <!-- Header section -->
+    <header>
+      <h1>SUBMIT</h1>
+      <div class="blurb">
+        <p>
+          Antifreeze wants to be a community of dramaturgs, writers, actors, artists, et cetera.<br>
+          Interdisciplinary and immersive. Set free, make often and joyfully.<br><br>
+        </p>
+        <p style="margin-left: -100;">
+          Are you a writer with work you want to develop?<br>
+          &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;A performer who wants to perform?<br>
+          Designer looking to design?&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<br>
+          Whatever!<br><br>
+          Looking for something to do?<br>
+          A story to share or a poem you wrote?&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<br>
+          &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Desperately need to talk about your painting????<br>
+          (literally annyttthingggh)<br><br>
+        </p>
+        <p>
+          A living journal. Art from this place.
+          <br>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Music after the show.<br><br>
+        </p>
+        <p><i>
+          This is an open-ended project and subject to change. It will be shaped by its collaborators.
+          Hoping for July 2025 start with prospects to be an ongoing venture.<br><br>
+        </i></p>
+        <p><u>
+          Please fill out the below form to submit your work for consideration.<br>
+        </u></p>
+      </div>
+    </header>
 
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email" required>
-    <br><br>
+    <!-- Main form section -->
+    <main>
+        <form id="upload-form" novalidate>
+          <!-- Basic information fields -->
+          <div>
+            <label for="name">&nbsp;Name:</label>
+            <input type="text" id="name" name="name" required>
+            <div class="error-message" id="name-error"></div>
+          </div>
+          <div>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <div class="error-message" id="email-error"></div>
+          </div>
+          <div>
+            <label for="phone">Phone:</label>
+            <input type="tel" id="phone" name="phone" required>
+            <div class="error-message" id="phone-error"></div>
+          </div>
+  
+          <!-- Application type selection -->
+          <div>
+            <label for="application-type">Application Type:</label>
+            <select id="application-type" name="application_type" required>
+              <option value="" selected disabled>Select an option</option>
+              <option value="writer">Writer</option>
+              <option value="dramaturg">Dramaturg</option>
+              <option value="designer">Designer</option>
+              <option value="actor">Actor</option>
+              <option value="director">Director</option>
+              <option value="visual_artist">Visual Artist</option>
+              <option value="reptile_handler">Reptile Handler</option>
+              <option value="clown">Clown</option>
+              <option value="dj">DJ</option>
+              <option value="musician_band">Musician/Band</option>
+              <option value="other">Other</option>
+            </select>
+            <div class="error-message" id="application-type-error"></div>
+          </div>
+  
+          <!-- Conditional fields for designer and other -->
+          <div id="designer-specify" style="display:none;">
+            <label for="designer-details">Please specify:</label>
+            <input type="text" id="designer-details" name="designer_details">
+            <div class="error-message" id="designer-details-error"></div>
+          </div>
+          
+          <div id="other-specify" style="display:none;">
+            <label for="other-details">Please specify:</label>
+            <input type="text" id="other-details" name="other_details">
+            <div class="error-message" id="other-details-error"></div>
+          </div>
+  
+          <!-- Rationale textarea -->
+          <div>
+            <label for="rationale" style="display: block; margin-bottom: 0.5vw;">Rationale:<br></label>
+            <textarea id="rationale" name="rationale" rows="5" maxlength="250" required></textarea>
+            <div class="error-message" id="rationale-error"></div>
+            <div id="word-count" style="font-size: 0.9em; color: white; text-align: right;">0/250 words</div>
+          </div>
+  
+          <!-- File upload sections -->
+          <div>
+            <label for="cv-file">CV:</label>
+            <input type="file" id="cv-file" name="cv-file" required>
+            <label for="cv-file" class="custom-file-label">Select File</label>
+            <div class="error-message" id="cv-file-error"></div>
+          </div>
+          
+          <div>
+            <label for="headshot-file">Headshot:</label>
+            <input type="file" id="headshot-file" name="headshot-file" required>
+            <label for="headshot-file" class="custom-file-label">Select File</label>
+            <div class="error-message" id="headshot-file-error"></div>
+          </div>
+          
+          <div>
+            <label for="work-file">Previous Work:</label>
+            <input type="file" id="work-file" name="work-file" required>
+            <label for="work-file" class="custom-file-label">Select File</label>
+            <div class="error-message" id="work-file-error"></div>
+          </div>
 
-    <label for="file">File:</label>
-    <input type="file" id="file" name="file" required>
-    <label for="file" class="custom-file-label">Select File</label>
-    <br><br>
+          <!-- File selection handlers -->
+        <script>
+            // Update file input labels when files are selected
+            ['cv-file', 'headshot-file', 'work-file'].forEach(fileId => {
+              document.getElementById(fileId).addEventListener('change', function() {
+                if (this.files && this.files[0]) {
+                  const fileName = this.files[0].name;
+                  const label = document.querySelector(`label[for="${fileId}"].custom-file-label`);
+                  if (label) {
+                    label.textContent = fileName;
+                  }
+                }
+              });
+            });
+          </script>
+  
+          <!-- Submit button -->
+          <br>
+          <button type="submit" class="custom-submit-label" id="submit-button">Submit</button>
+        </form>
+      </main>
+  </div>
+  <br><br><br><br><br>
 
-    <!-- The submit button -->
-    <button type="submit" class="custom-submit-label" id="submit-button">Submit</button>
-  </form>
-
-  <script>
-    document.getElementById('upload-form').addEventListener('submit', function(e) {
-      e.preventDefault();
-
-      // Get values from the form fields
-      var name = document.getElementById('name').value;
-      var email = document.getElementById('email').value;
-      var fileInput = document.getElementById('file');
-      var file = fileInput.files[0];
-
-      if (!file) {
-        alert("Please select a file.");
-        return;
-      }
-
-      // Get the submit button element and update its appearance to show loading.
-      var submitButton = document.getElementById('submit-button');
-      // Save original text so we can restore it later.
-      var originalButtonText = submitButton.innerHTML;
-      // Change button content to include the spinner and "Loading..."
-      submitButton.innerHTML = '<span class="spinner"></span> Sending...';
-      submitButton.disabled = true;
-
-      // Use FileReader to load the file as an ArrayBuffer.
-      var fr = new FileReader();
-      fr.readAsArrayBuffer(file);
-      fr.onload = function(f) {
-        // Set the URL of your published Google Apps Script web app:
-        var googleAppsScriptURL = "https://script.google.com/macros/s/AKfycbzYUyQSHb3uTzeTMZdKilGmdOFEaKZ9Wdm9D9V45f3NZBQWOThFlUEAZtYPq_tpX16l/exec";
-
-        // Prepare URL query parameters:
-        // We send the file's name and MIME type, plus the extra fields.
-        var qs = new URLSearchParams({
-          filename: file.name,
-          mimeType: file.type,
-          name: name,
-          email: email
-        });
-
-        // Convert the ArrayBuffer into an array of numbers and then stringify.
-        fetch(`${googleAppsScriptURL}?${qs}`, {
-          method: "POST",
-          body: JSON.stringify([...new Int8Array(f.target.result)])
-        })
-        .then(response => response.json())
-        .then(data => {
-          // Restore button appearance after receiving a response.
-          submitButton.innerHTML = originalButtonText;
-          submitButton.disabled = false;
-          // Show a popup based solely on success or failure.
-          if (data.success) {
-            alert("Submission uploaded successfully!");
-          } else if (data.error) {
-            alert("Submission Failed: " + data.error);
-          }
-        })
-        .catch(error => {
-          console.error('Error:', error);
-          // Restore button appearance if there's an error.
-          submitButton.innerHTML = originalButtonText;
-          submitButton.disabled = false;
-          alert("Submission Failed: " + error.message);
-        });
-      }
-    });
-  </script>
-
-  <div class="menu">
+  <!-- Footer navigation -->
+  <footer class="menu">
     <a href="index.html">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
     <a href="submit.html">Submit</a>&nbsp;&nbsp;&nbsp;&nbsp;
     <a href="contact.html">Contact</a>&nbsp;&nbsp;&nbsp;&nbsp;
     <a href="archive.html">Archive</a>
-  </div>
+  </footer>
+
+  <!-- Form submission handler -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('upload-form');
+        const appType = document.getElementById('application-type');
+        const designerSpecify = document.getElementById('designer-specify');
+        const otherSpecify = document.getElementById('other-specify');
+        
+        // Application type change handler
+        appType.addEventListener('change', function() {
+            const isDesigner = this.value === 'designer';
+            const isOther = this.value === 'other';
+            
+            designerSpecify.style.display = isDesigner ? 'block' : 'none';
+            otherSpecify.style.display = isOther ? 'block' : 'none';
+            
+            // Make specification fields required only when visible
+            document.getElementById('designer-details').required = isDesigner;
+            document.getElementById('other-details').required = isOther;
+        });
+
+        // Clear validation styling when user starts typing
+        const inputs = form.querySelectorAll('input, select, textarea');
+        inputs.forEach(input => {
+            input.addEventListener('input', function() {
+                this.classList.remove('field-invalid');
+                const errorElement = document.getElementById(`${this.id}-error`);
+                if (errorElement) {
+                    errorElement.textContent = '';
+                }
+            });
+        });
+
+        // Form submission handler
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Clear all previous error messages and validation styling
+            document.querySelectorAll('.error-message').forEach(error => error.textContent = '');
+            document.querySelectorAll('.field-invalid').forEach(field => field.classList.remove('field-invalid'));
+            
+            let isValid = true;
+            
+            // Validate text inputs
+            ['name', 'email', 'phone'].forEach(field => {
+                const input = document.getElementById(field);
+                if (!input.value.trim()) {
+                    document.getElementById(`${field}-error`).textContent = `${field.charAt(0).toUpperCase() + field.slice(1)} is required`;
+                    input.classList.add('field-invalid');
+                    isValid = false;
+                }
+            });
+            
+            // Validate email format
+            const email = document.getElementById('email');
+            if (email.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
+                document.getElementById('email-error').textContent = 'Please enter a valid email address';
+                email.classList.add('field-invalid');
+                isValid = false;
+            }
+            
+            // Validate application type
+            if (!appType.value) {
+                document.getElementById('application-type-error').textContent = 'Please select an application type';
+                appType.classList.add('field-invalid');
+                isValid = false;
+            }
+            
+            // Validate conditional fields
+            if (appType.value === 'designer' && !document.getElementById('designer-details').value.trim()) {
+                document.getElementById('designer-details-error').textContent = 'Please specify design type';
+                document.getElementById('designer-details').classList.add('field-invalid');
+                isValid = false;
+            }
+            if (appType.value === 'other' && !document.getElementById('other-details').value.trim()) {
+                document.getElementById('other-details-error').textContent = 'Please specify your role';
+                document.getElementById('other-details').classList.add('field-invalid');
+                isValid = false;
+            }
+            
+            // Validate rationale
+            const rationale = document.getElementById('rationale');
+            if (!rationale.value.trim()) {
+                document.getElementById('rationale-error').textContent = 'Please provide a rationale';
+                rationale.classList.add('field-invalid');
+                isValid = false;
+            }
+            
+            // Validate file uploads
+            ['cv-file', 'headshot-file', 'work-file'].forEach(field => {
+                const input = document.getElementById(field);
+                if (!input.files || !input.files[0]) {
+                    document.getElementById(`${field}-error`).textContent = 'Please select a file';
+                    input.classList.add('field-invalid');
+                    isValid = false;
+                }
+            });
+            
+            if (!isValid) {
+                return;
+            }
+
+            // Get all form field values - store in an object to avoid redeclaration
+            const formFields = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                applicationType: document.getElementById('application-type').value,
+                rationale: document.getElementById('rationale').value,
+                designerDetails: document.getElementById('designer-details').value,
+                otherDetails: document.getElementById('other-details').value
+            };
+
+            // Get file inputs
+            const cvFile = document.getElementById('cv-file').files[0];
+            const headshotFile = document.getElementById('headshot-file').files[0];
+            const workFile = document.getElementById('work-file').files[0];
+
+            // Update button state
+            const submitButton = document.getElementById('submit-button');
+            const originalButtonText = submitButton.innerHTML;
+            submitButton.innerHTML = '<span class="spinner"></span> Sending...';
+            submitButton.disabled = true;
+
+            // File reading promise function remains the same
+            const readFile = (file) => {
+                return new Promise((resolve, reject) => {
+                    const fr = new FileReader();
+                    fr.onload = (e) => resolve({
+                        name: file.name,
+                        type: file.type,
+                        data: [...new Int8Array(e.target.result)]
+                    });
+                    fr.onerror = reject;
+                    fr.readAsArrayBuffer(file);
+                });
+            };
+
+            // Read all files simultaneously
+            Promise.all([
+                readFile(cvFile),
+                readFile(headshotFile),
+                readFile(workFile)
+            ])
+            .then(([cvData, headshotData, workData]) => {
+                // Prepare the data to send using the formFields object
+                const formData = {
+                    ...formFields,
+                    files: {
+                        cv: cvData,
+                        headshot: headshotData,
+                        work: workData
+                    }
+                };
+
+                // Send to Google Apps Script
+                const googleAppsScriptURL = "https://script.google.com/macros/s/AKfycby9BfZx1rCo41kxpWQvPVDH61Td7V2prJjGWBuPzlwD32ACUJf94AVUS1BEU5oh4s2w/exec";
+                
+                // Add main form data as URL parameters using the formFields object
+                const qs = new URLSearchParams(formFields);
+
+                return fetch(`${googleAppsScriptURL}?${qs}`, {
+                    method: "POST",
+                    body: JSON.stringify(formData)
+                });
+            })
+            .then(response => response.json())
+            .then(data => {
+                submitButton.innerHTML = originalButtonText;
+                submitButton.disabled = false;
+                if (data.success) {
+                    alert("Submission uploaded successfully!");
+                    // Reset the form
+                    form.reset();
+                    // Reset file input labels
+                    document.querySelectorAll('.custom-file-label').forEach(label => {
+                        label.textContent = 'Select File';
+                    });
+                } else if (data.error) {
+                    alert("Submission Failed: " + data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                submitButton.innerHTML = originalButtonText;
+                submitButton.disabled = false;
+                alert("Submission Failed: " + error.message);
+            });
+        });
+    });
+    </script>
 </body>
 </html>
