@@ -87,20 +87,24 @@
             font-family: "Lucida Sans Typewriter", "Lucida Console", monospace; /* Ensure consistent font */
         }
 
-        .menu { /* Submit Contact Archive */
-            font-size: 1.75vw; /* Match body text size */
-            color: black; /* Text color */
-            position: absolute;
-            bottom: 5%; /* Position the menu near the bottom */
-            left: 50%; /* Center the menu horizontally */
-            transform: translateX(-50%); /* Adjust for exact centering */
-            font-family: "Lucida Sans Typewriter", "Lucida Console", monospace; /* Ensure consistent font */
+        /* Footer menu styles */
+        .menu {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #fffcdc;
+            color: white;
+            text-align: center;
+            font-family: "Lucida Sans Typewriter", "Lucida Console", monospace;
+            font-size: 1.75vw;
+            padding: 0.5vw 0;
         }
 
         .menu a {
             color: black;
             text-decoration: none;
-            margin: 0 10px;
+            margin: 0 0.5vw;
         }
 
         .menu a:hover {
@@ -108,7 +112,7 @@
         }
     </style>
 </head>
-<body style="background-color: #020520;">
+<body style="background-color: #FDFADF;">
     <div class="overlay-list">› Artists<br>› Clowns<br>› Designers<br>› Writers<br>› Dramaturgs<br>› Performers<br>› Reptile Handlers<br>&nbsp;&nbsp;&nbsp;&nbsp;(and more)<br><span style="line-height: 2;">Wanted.</span></div>
     <h1>ANTI&nbsp;&nbsp;&nbsp;&nbsp;FREEZE</h1>
     <div class="subtext">
@@ -117,11 +121,11 @@
     </div>
     <div class="overlay-text">trying to do</div>
     <div class="overlay-text-2">and trying to talk about it.</div>
-    <div class="menu">
+    <footer class="menu">
         <a href="index.html">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
         <a href="submit.html">Submit</a>&nbsp;&nbsp;&nbsp;&nbsp;
         <a href="contact.html">Contact</a>&nbsp;&nbsp;&nbsp;&nbsp;
         <a href="archive.html">Archive</a>
-    </div>
+    </footer>
 </body>
 </html>
