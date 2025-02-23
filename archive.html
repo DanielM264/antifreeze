@@ -16,7 +16,20 @@
             align-items: flex-start; /* Align content to the left */
             background: url('bg_submit.png') no-repeat center center fixed; /* Use local image as background */
             background-size: cover; /* Ensure the image covers the entire background */
-            font-family: Arial, sans-serif;
+        }
+
+        body::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            filter: url(#crackEffect);
+            background: inherit; /* Copies the body background */
+            z-index: 1; /* Puts it over the background but under the text */
+            opacity: 1;
+            pointer-events: none; /* Prevents interaction */
         }
 
         /* Main container */
@@ -27,27 +40,24 @@
             max-height: 100vh;
             margin-left: 5vw;
             margin-bottom: 0;
+            z-index: 2;
         }
 
         /* Header styles */
-        header h1 {
+        header h1, header h2 {
             font-size: 12vw;
             color: white;
-            font-weight: normal;
-            font-family: Arial;
+            font-weight: bold;
+            font-family: Impact, sans-serif;
             text-align: center;
             margin-top: 12vh;
             line-height: 10vh;
+            filter: url(#crackEffect);
+            opacity: 0.15;
         }
 
         header h2 {
             font-size: 14vw;
-            color: white;
-            font-weight: normal;
-            font-family: Arial;
-            text-align: center;
-            margin-top: 12vh;
-            line-height: 10vh;
         }
 
         /* Footer menu styles */
@@ -62,6 +72,9 @@
             font-family: "Lucida Sans Typewriter", "Lucida Console", monospace;
             font-size: 1.75vw;
             padding: 0.52vw 0;  /* 10px -> 0.52vw */
+            filter: url(#crackEffect2);
+            opacity: 0.8;
+            z-index: 3;
         }
 
         .menu a {
@@ -80,7 +93,8 @@
         <header>
             <h1 style="margin-top: 20vh;">YOU ARE</h1>
             <h2>TOO EARLY</h2>
-            <h1 style="margin-top: -10vh;">............</h1>
+            <h1 style="margin-top: -20vh;">. . . . . . . . . </h1>
+            <!-- <h1 style="margin-top: -83vh;">. . . . . . . . . . . .</h1> -->
         </header>
     </div>
       <!-- Footer navigation -->
@@ -90,5 +104,17 @@
         <a href="contact.html">Contact</a>&nbsp;&nbsp;&nbsp;&nbsp;
         <a href="archive.html">Archive</a>
     </footer>
+    <svg width="0" height="0">
+        <filter id="crackEffect">
+            <feTurbulence type="turbulence" baseFrequency="0.5" numOctaves="3" result="turbulence"/>
+            <feDisplacementMap in="SourceGraphic" in2="turbulence" scale="100" />
+        </filter>
+    </svg>
+    <svg width="0" height="0">
+        <filter id="crackEffect2">
+            <feTurbulence type="turbulence" baseFrequency="0.008" numOctaves="3" result="turbulence"/>
+            <feDisplacementMap in="SourceGraphic" in2="turbulence" scale="5" />
+        </filter>
+    </svg> 
 </body>
 </html>

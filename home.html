@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scrolling Menu</title>
+    <link rel="icon" href="favicon.png" type="image/png">
+    <style>
+        /* Wrapper for horizontal scrolling */
+        .content-wrapper {
+            display: flex;
+            width: 400vw; /* 4 pages × 100vw */
+            height: 100vh;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Individual page sections */
+        .page {
+            width: 100vw;
+            height: 100vh;
+            flex-shrink: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 4vw;
+            font-family: Impact, sans-serif;
+            color: white;
+        }
+
+        /* Background colors */
+        #home { background: #1e1e1e; } /* Dark gray */
+        #submit { background: #3b5998; } /* Blue */
+        #contact { background: #ff5722; } /* Orange */
+        #archive { background: #4caf50; } /* Green */
+
+        /* Footer navigation */
+        .menu {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #020520;
+            color: white;
+            text-align: center;
+            font-family: "Lucida Sans Typewriter", "Lucida Console", monospace;
+            font-size: 1.75vw;
+            padding: 0.52vw 0;
+        }
+
+        .menu a {
+            color: white;
+            text-decoration: none;
+            margin: 0 1.5vw;
+            cursor: pointer;
+        }
+
+        .menu a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Main Content Wrapper -->
+    <div class="content-wrapper">
+        <div id="home" class="page" data-page="home.html"></div>
+        <div id="submit" class="page" data-page="submit.html"></div>
+        <div id="contact" class="page" data-page="contact.html"></div>
+        <div id="archive" class="page" data-page="archive.html"></div>
+    </div>
+
+    <!-- Footer Navigation -->
+    <footer class="menu">
+        <a href="#" onclick="scrollToPage('home')">Home</a>
+        <a href="#" onclick="scrollToPage('submit')">Submit</a>
+        <a href="#" onclick="scrollToPage('contact')">Contact</a>
+        <a href="#" onclick="scrollToPage('archive')">Archive</a>
+    </footer>
+
+    <!-- JavaScript for Loading Pages & Scrolling -->
+    <script>
+        function scrollToPage(pageId) {
+            const page = document.getElementById(pageId);
+            if (page) {
+                page.scrollIntoView({ behavior: 'smooth', inline: 'start' });
+                loadPageContent(pageId);
+            }
+        }
+
+        // Function to load external HTML content dynamically
+        function loadPageContent(pageId) {
+            const page = document.getElementById(pageId);
+            const url = page.getAttribute("data-page");
+
+            if (!page.innerHTML.trim()) { // Load only if empty
+                fetch(url)
+                    .then(response => response.text())
+                    .then(html => { page.innerHTML = html; })
+                    .catch(error => console.error(`Error loading ${url}:`, error));
+            }
+        }
+
+        // Load the first page on initial load
+        document.addEventListener("DOMContentLoaded", () => {
+            loadPageContent("home");
+        });
+
+        // Arrow key navigation
+        document.addEventListener("keydown", function(event) {
+            const pages = ["home", "submit", "contact", "archive"];
+            let currentPage = pages.findIndex(page => 
+                document.getElementById(page).getBoundingClientRect().left === 0
+            );
+
+            if (event.key === "ArrowRight" && currentPage < pages.length - 1) {
+                scrollToPage(pages[currentPage + 1]);
+            }
+            if (event.key === "ArrowLeft" && currentPage > 0) {
+                scrollToPage(pages[currentPage - 1]);
+            }
+        });
+    </script>
+
+</body>
+</html>
