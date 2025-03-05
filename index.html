@@ -17,6 +17,15 @@
                 window.location.href = 'm_index.html';
             }
         };
+
+        function copyToClipboard(element) {
+            const text = element.innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                const message = document.getElementById("copy-message");
+                message.style.display = "inline"; // Show message
+                setTimeout(() => { message.style.display = "none"; }, 2000); // Hide after 2 sec
+            });
+        }
     </script>
     <style>
         body {
@@ -87,6 +96,20 @@
             font-family: "Lucida Sans Typewriter", "Lucida Console", monospace; /* Ensure consistent font */
         }
 
+        .contact { 
+            font-size: 1vw; /* Match body text size */
+            color: black; /* Text color */
+            position: absolute;
+            top: 90%; /* Adjust to align with the "R" in FREEZE */
+            left: 50%; /* Adjust to overlay near the "R" in FREEZE */
+            transform: translate(-50%, -50%);
+            font-family: "Lucida Sans Typewriter", "Lucida Console", monospace; /* Ensure consistent font */
+        }
+
+        .contact:hover {
+            text-decoration: underline;
+        }
+
         /* Footer menu styles */
         .menu {
             position: fixed;
@@ -121,6 +144,8 @@
     </div>
     <div class="overlay-text">trying to do</div>
     <div class="overlay-text-2">and trying to talk about it.</div>
+    <!-- <div class="contact" onclick="copyToClipboard(this)">antifreezejournal@gmail.com</div>
+    <p id="copy-message" style="display: none; color: green; position: absolute; top: 85%; left: 50%; transform: translate(-50%, -50%);">Copied!</p> -->
     <footer class="menu">
         <a href="index.html">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
         <a href="submit.html">Submit</a>&nbsp;&nbsp;&nbsp;&nbsp;

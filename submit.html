@@ -24,7 +24,7 @@
 body {
   margin: 0;
   padding: 0;
-  background: url('bg_submit.png') no-repeat center center fixed;
+  background: url('bg_submit1.png') no-repeat center center fixed;
   background-size: cover;
   margin-left: 0.5vw;
 }
@@ -35,6 +35,7 @@ body {
   max-width: 100vw;
   margin: 1.04vw auto;  /* 20px -> 1.04vw */
   padding-bottom: 4.17vw;  /* 80px -> 4.17vw */
+  /* text-shadow: 0.07vw 0.07vw 0.07vw rgba(255, 255, 255, 0.8);  */
 }
 
 /* Header styles */
@@ -78,13 +79,14 @@ label {
 
 input {
   color: white;
-  background-color: #081c3c;
+  background-color: #081569;
   border: none;
   padding: 0.26vw 0.52vw;  /* 5px 10px -> 0.26vw 0.52vw */
   border-radius: 0.21vw;   /* 4px -> 0.21vw */
-  font-size: 1.1vw;
+  font-size: 1vw;
   width: 40%;
   max-width: 50vw;
+  font-family: 'Lucida Sans';
 }
 
 /* Custom file input styling */
@@ -94,7 +96,7 @@ input[type="file"] {
 
 select {
   color: white;
-  background-color: #081c3c;
+  background-color: #081569;
   border: none;
   padding: 0.26vw 0.52vw;  /* 5px 10px -> 0.26vw 0.52vw */
   border-radius: 0.21vw;   /* 4px -> 0.21vw */
@@ -104,61 +106,20 @@ select {
 
 .custom-file-label {
   display: inline-block;
-  background-color: #081c3c;
+  background-color: #081569;
   color: white;
-  padding: 0.26vw 0.52vw;  /* 5px 10px -> 0.26vw 0.52vw */
-  border-radius: 0.21vw;   /* 4px -> 0.21vw */
+  padding: 0.26vw 0.52vw;
+  border-radius: 0.21vw;
   cursor: pointer;
   font-family: "Arial", sans-serif;
   font-size: 1.1vw;
-  margin-top: 0.26vw;      /* 5px -> 0.26vw */
-}
-
-/* Textarea styles */
-#rationale {
-  width: 100%;
-  background-color: #081c3c;
-  color: white;
-  border: none;
-  padding: 0.26vw 0.52vw;  /* 5px 10px -> 0.26vw 0.52vw */
-  border-radius: 0.21vw;   /* 4px -> 0.21vw */
-  font-family: "Lucida Sans Typewriter", "Lucida Console", monospace;
-  font-size: 1.1vw;
-  resize: none;
-  display: block;
-}
-
-/* Custom scrollbar styles */
-#rationale::-webkit-scrollbar {
-  width: 0.417vw;  /* 8px -> 0.417vw */
-}
-
-#rationale::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-#rationale::-webkit-scrollbar-thumb {
-  background: #080424;
-  border-radius: 0.21vw;  /* 4px -> 0.21vw */
-}
-
-#rationale::-webkit-scrollbar-thumb:hover {
-  background: #052144;
-}
-
-#rationale {
-  scrollbar-width: thin;
-  scrollbar-color: #080424 transparent;
-}
-
-#word-count {
-  margin-top: 0.26vw;  /* 5px -> 0.26vw */
+  margin-top: 0.26vw;
 }
 
 /* Submit button styles */
 .custom-submit-label {
   display: inline-block;
-  background-color: #081c3c;
+  background-color: #081569;
   color: white;
   border-radius: 0.21vw;  /* 4px -> 0.21vw */
   cursor: pointer;
@@ -319,26 +280,25 @@ select {
   
           <!-- Conditional fields for designer and other -->
           <div id="designer-specify" style="display:none;">
-            <label for="designer-details">Please specify:</label>
+            <label for="designer-details">Please Specify:</label>
             <input type="text" id="designer-details" name="designer_details">
             <div class="error-message" id="designer-details-error"></div>
           </div>
           
           <div id="other-specify" style="display:none;">
-            <label for="other-details">Please specify:</label>
+            <label for="other-details">Please Specify:</label>
             <input type="text" id="other-details" name="other_details">
             <div class="error-message" id="other-details-error"></div>
           </div>
   
-          <!-- Rationale textarea -->
-          <div>
-            <label for="rationale" style="display: block; margin-bottom: 0.5vw;">Rationale:<br></label>
-            <textarea id="rationale" name="rationale" rows="5" maxlength="250" required></textarea>
-            <div class="error-message" id="rationale-error"></div>
-            <div id="word-count" style="font-size: 0.9em; color: white; text-align: right;">0/250 words</div>
-          </div>
-  
           <!-- File upload sections -->
+          <div>
+            <label for="rationale-file">Rationale:</label>
+            <input type="file" id="rationale-file" name="rationale-file" required>
+            <label for="rationale-file" class="custom-file-label">Select File</label>
+            <div class="error-message" id="rationale-file-error"></div>
+          </div>
+
           <div>
             <label for="cv-file">CV:</label>
             <input type="file" id="cv-file" name="cv-file" required>
@@ -363,7 +323,7 @@ select {
           <!-- File selection handlers -->
         <script>
             // Update file input labels when files are selected
-            ['cv-file', 'headshot-file', 'work-file'].forEach(fileId => {
+            ['rationale-file', 'cv-file', 'headshot-file', 'work-file'].forEach(fileId => {
               document.getElementById(fileId).addEventListener('change', function() {
                 if (this.files && this.files[0]) {
                   const fileName = this.files[0].name;
@@ -379,6 +339,7 @@ select {
           <!-- Submit button -->
           <br>
           <button type="submit" class="custom-submit-label" id="submit-button">Submit</button>
+          <br><br>
         </form>
       </main>
   </div>
@@ -472,22 +433,15 @@ select {
                 isValid = false;
             }
             
-            // Validate rationale
-            const rationale = document.getElementById('rationale');
-            if (!rationale.value.trim()) {
-                document.getElementById('rationale-error').textContent = 'Please provide a rationale';
-                rationale.classList.add('field-invalid');
-                isValid = false;
-            }
-            
             // Validate file uploads
-            ['cv-file', 'headshot-file', 'work-file'].forEach(field => {
+            ['rationale-file', 'cv-file', 'headshot-file', 'work-file'].forEach(field => {
                 const input = document.getElementById(field);
                 if (!input.files || !input.files[0]) {
                     document.getElementById(`${field}-error`).textContent = 'Please select a file';
                     input.classList.add('field-invalid');
                     isValid = false;
                 }
+                else fileFlag = true;
             });
             
             if (!isValid) {
@@ -500,12 +454,12 @@ select {
                 email: document.getElementById('email').value,
                 phone: document.getElementById('phone').value,
                 applicationType: document.getElementById('application-type').value,
-                rationale: document.getElementById('rationale').value,
                 designerDetails: document.getElementById('designer-details').value,
                 otherDetails: document.getElementById('other-details').value
             };
 
             // Get file inputs
+            const rationaleFile = document.getElementById('rationale-file').files[0];
             const cvFile = document.getElementById('cv-file').files[0];
             const headshotFile = document.getElementById('headshot-file').files[0];
             const workFile = document.getElementById('work-file').files[0];
@@ -532,15 +486,17 @@ select {
 
             // Read all files simultaneously
             Promise.all([
+                readFile(rationaleFile),
                 readFile(cvFile),
                 readFile(headshotFile),
                 readFile(workFile)
             ])
-            .then(([cvData, headshotData, workData]) => {
+            .then(([rationaleData, cvData, headshotData, workData]) => {
                 // Prepare the data to send using the formFields object
                 const formData = {
                     ...formFields,
                     files: {
+                        rationale: rationaleData,
                         cv: cvData,
                         headshot: headshotData,
                         work: workData
@@ -548,7 +504,7 @@ select {
                 };
 
                 // Send to Google Apps Script
-                const googleAppsScriptURL = "https://script.google.com/macros/s/AKfycby9BfZx1rCo41kxpWQvPVDH61Td7V2prJjGWBuPzlwD32ACUJf94AVUS1BEU5oh4s2w/exec";
+                const googleAppsScriptURL = "https://script.google.com/macros/s/AKfycbz3itc2Kg0V1FVeutZMMANm8R0k8gVhvkFOSG2LaKFa06fe4lOoGuuK1_qg8L5_HKY/exec";
                 
                 // Add main form data as URL parameters using the formFields object
                 const qs = new URLSearchParams(formFields);
