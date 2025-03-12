@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,151 +5,334 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ANTI FREEZE</title>
     <link rel="icon" href="favicon.png" type="image/png">
+    
     <script>
         function isMobile() {
             return window.innerWidth < 720 || /Mobi|Android/i.test(navigator.userAgent);
         }
-    
+
         window.onload = function() {
             if (isMobile()) {
-                // Redirect to the mobile-specific loading page
                 window.location.href = 'm_index.html';
             }
         };
 
-        function copyToClipboard(element) {
-            const text = element.innerText;
-            navigator.clipboard.writeText(text).then(() => {
-                const message = document.getElementById("copy-message");
-                message.style.display = "inline"; // Show message
-                setTimeout(() => { message.style.display = "none"; }, 2000); // Hide after 2 sec
-            });
+        function closePopup() {
+            document.getElementById("welcomePopup").style.display = "none";
+            startAnimation();
+        }
+
+        function startAnimation() {
+            let step = 0;
+            const body = document.body;
+            const h1 = document.querySelector("h1");
+            const subtext = document.querySelector(".subtext i");
+            const bodyText = document.querySelector(".subtitle");
+            const overlayText = document.querySelector(".overlay1");
+            const overlayText2 = document.querySelector(".overlay2");
+
+            function updateStep() {
+                step++;
+                console.log(step);
+
+                switch (step) {
+                    case 1:
+                        body.classList.remove("invert");
+                        h1.classList.add("visible");
+                        subtext.classList.add("visible");
+                        overlayText.classList.add("invisible");
+                        setTimeout(updateStep, 1200);
+                        return;
+                    case 2:
+                        body.classList.add("invert");
+                        setTimeout(updateStep, 200);
+                        return;
+                    case 3:
+                        body.classList.remove("invert");
+                        setTimeout(updateStep, 200);
+                        return;
+                    case 4: // overlayText appears
+                        body.classList.add("invert");
+                        overlayText.classList.remove("invisible");
+                        setTimeout(updateStep, 1200);
+                        return;
+                    case 5:
+                        body.classList.remove("invert");
+                        overlayText.classList.add("invisible");
+                        setTimeout(updateStep, 200);
+                        return;
+                    // case 6:
+                    //     body.classList.add("invert");
+                    //     setTimeout(updateStep, 200);
+                    //     return;
+                    // case 7:
+                    //     body.classList.remove("invert");
+                    //     setTimeout(updateStep, 200);
+                    //     return;
+                    case 6:
+                        body.classList.add("invert");
+                        setTimeout(updateStep, 200);
+                        return;
+                    case 7: // overlayText2 appears
+                        body.classList.remove("invert");
+                        overlayText2.classList.add("visible");
+                        setTimeout(updateStep, 2000);
+                        return;
+                    case 8:
+                        body.classList.add("invert");
+                        overlayText2.classList.remove("visible");
+                        setTimeout(updateStep, 200);
+                        return;
+                    case 9:
+                        body.classList.remove("invert");
+                        setTimeout(updateStep, 150);
+                        return;
+                    case 10:
+                        body.classList.add("invert");
+                        setTimeout(updateStep, 300);
+                        return;
+                    case 11:
+                        body.classList.remove("invert");
+                        setTimeout(updateStep, 500);
+                        return;
+                    case 12:
+                        body.classList.add("invert");
+                        setTimeout(updateStep, 1000);
+                        return;
+                    case 13:
+                        body.classList.remove("invert");
+                        setTimeout(updateStep, 1300);
+                        return;
+                    case 14: // bodyText appears
+                        body.classList.add("invert");
+                        bodyText.classList.add("visible");
+                        setTimeout(updateStep, 2000);
+                        return;
+                    case 15: // trigger pixelate fade-out effect and redirect
+                        const pixelateEffect = document.querySelector(".pixelate-effect");
+                        pixelateEffect.classList.add("fade-out");  // Apply the pixelation effect
+
+                        setTimeout(function() {
+                            window.location.href = 'submit.html';  // Redirect after animation
+                        }, 1000);  // Increased time to allow for the multi-step fade-out animation
+                        return;
+
+
+                    default:
+                        break;
+                }
+            }
+
+            updateStep();
         }
     </script>
+
     <style>
+        :root {
+            --text-color: black;
+            --bg-image: url('bg.png');
+        }
+
         body {
             margin: 0;
             padding: 0;
             height: 100vh;
             display: flex;
-            flex-direction: column; /* Stack children vertically */
-            justify-content: center; /* Center content vertically */
-            align-items: flex-start; /* Align content to the left */
-            background: url('bg.png') no-repeat center center fixed; /* Use local image as background */
-            background-size: cover; /* Ensure the image covers the entire background */
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            background: var(--bg-image) no-repeat center center fixed;
+            background-size: cover;
             font-family: Arial, sans-serif;
+            color: var(--text-color);
+        }
+
+        /* Invert background and text color */
+        body.invert {
+            --text-color: white;
+            --bg-image: url('bg_invert.png');
+        }
+
+        body.invert .overlay1 {
+            background-color: #080424; /* Darker background for inverted mode */
+        }
+
+        h1, .subtext i, .subtitle, .overlay1, .overlay2 {
+            opacity: 0;
+        }
+
+        .visible {
+            opacity: 1 !important;
         }
 
         h1 {
-            font-size: 8vw; /* Make font size responsive to screen width */
-            color: black; /* Text color */
-            font-weight: normal; /* Ensure no bold styling */
-            margin-left: 30%; /* Push "ANTI FREEZE" to the right */
-            margin-bottom: -1vh; /* Reduce spacing between lines */
+            font-size: 8vw;
+            color: var(--text-color);
+            font-weight: normal;
+            position: absolute;
+            top: 35%;
+            left: 51.5%;
+            transform: translate(-50%, -50%);
+            text-align: center;
         }
 
-        .subtext {  /* (*25) */
-            font-size: 6vw; /* Make font size responsive to screen width */
-            color: black; /* Text color */
-            margin-left: 15%; /* Push "(*25)" further to the left */
-            margin-top: -1vh; /* Reduce spacing between lines */
+        .subtext {
+            font-size: 6vw;
+            color: var(--text-color);
+            margin-left: 7.2%;
+            margin-top: 9%;
             display: flex;
         }
 
-        .body-text { /* A Curated Journal, performed in Meanjin. */
-            font-family: "Lucida Sans Typewriter", "Lucida Console", monospace; /* Change font */
-            font-size: 1vw; /* Regular body text size */
-            color: black; /* Text color */
-            vertical-align: middle; /* Ensures alignment with (*25) */
-        }
-
-        .overlay-text { /* trying to do */
-            font-size: 0.9vw; /* Match body text size */
-            color: black; /* Text color */
-            position: absolute;
-            background-color: #fffcdc; /* Semi-transparent background to cover part of the R */
-            padding: 0.2vw 0.15vw 0.8vw; /* Add padding for better visibility */
-            top: 55%; /* Adjust to align with the "R" in FREEZE */
-            left: 62.2%; /* Adjust to overlay near the "R" in FREEZE */
-            transform: translate(-50%, -50%);
-            font-family: "Lucida Sans Typewriter", "Lucida Console", monospace; /* Ensure consistent font */
-        }
-
-        .overlay-text-2 { /* and trying to talk about it. */
-            font-size: 0.9vw; /* Match body text size */
-            color: black; /* Text color */
-            position: absolute;
-            top: 56.5%; /* Adjust to align with the "R" in FREEZE */
-            left: 80%; /* Adjust to overlay near the "R" in FREEZE */
-            transform: translate(-50%, -50%);
-            font-family: "Lucida Sans Typewriter", "Lucida Console", monospace; /* Ensure consistent font */
-        }
-
-        .overlay-list { /* wanted */
-            font-size: 1.75vw; /* Match body text size */
-            color: black; /* Text color */
-            position: absolute;
-            top: 24%; /* Adjust to align with the "R" in FREEZE */
-            left: 12%; /* Adjust to overlay near the "R" in FREEZE */
-            transform: translate(-50%, -50%);
-            font-family: "Lucida Sans Typewriter", "Lucida Console", monospace; /* Ensure consistent font */
-        }
-
-        .contact { 
-            font-size: 1vw; /* Match body text size */
-            color: black; /* Text color */
-            position: absolute;
-            top: 90%; /* Adjust to align with the "R" in FREEZE */
-            left: 50%; /* Adjust to overlay near the "R" in FREEZE */
-            transform: translate(-50%, -50%);
-            font-family: "Lucida Sans Typewriter", "Lucida Console", monospace; /* Ensure consistent font */
-        }
-
-        .contact:hover {
-            text-decoration: underline;
-        }
-
-        /* Footer menu styles */
-        .menu {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: #fffcdc;
-            color: white;
-            text-align: center;
+        .subtitle {
             font-family: "Lucida Sans Typewriter", "Lucida Console", monospace;
-            font-size: 1.75vw;
-            padding: 0.5vw 0;
+            font-size: 1vw;
+            color: var(--text-color);
         }
 
-        .menu a {
-            color: black;
-            text-decoration: none;
-            margin: 0 0.5vw;
+        /* Default background and text color for overlay1 */
+        .overlay1 {
+            font-size: 0.9vw;
+            color: var(--text-color);
+            position: absolute;
+            background-color: #fffcdc;
+            padding: 0.2vw 0.15vw 0.8vw;
+            top: 51%;
+            left: 54.5%;
+            transform: translate(-50%, -50%);
+            font-family: "Lucida Sans Typewriter", "Lucida Console", monospace;
+            z-index: 2;  /* Ensure it's above the background */
+            opacity: 1; /* Make sure it's visible from the start */
         }
 
-        .menu a:hover {
-            text-decoration: underline;
+        /* When overlay1 is invisible, make the text color the same as the background */
+        .overlay1.invisible {
+            color: #fffcdc;  /* Match text color to background */
+            background-color: #fffcdc;  /* Ensure background stays consistent */
+        }
+
+        /* Invert background and text color */
+        body.invert .overlay1 {
+            background-color: #080424;  /* Inverted background color */
+        }
+
+        body.invert .overlay1.invisible {
+            color: #080424;  /* Invert text color to match the background */
+            background-color: #080424;  /* Match background for invisible state */
+        }
+
+        .overlay2 {
+            font-size: 0.9vw;
+            color: var(--text-color);
+            position: absolute;
+            top: 53%;
+            left: 73%;
+            transform: translate(-50%, -50%);
+            font-family: "Lucida Sans Typewriter", "Lucida Console", monospace;
+        }
+
+        /* Welcome to Country Popup */
+        .popup {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-size: 4vw;
+            font-family: "Lucida Sans Typewriter", "Lucida Console", monospace;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        /* Pixelated Effect */
+        .pixelate-effect {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.5); /* Dark overlay */
+            z-index: 1001;
+            pointer-events: none;
+            display: none;
+            opacity: 0;  /* Initially hidden */
+        }
+
+        /* Fade-out animation with pixelation */
+        .pixelate-effect.fade-out {
+            display: block;
+            animation: pixelateFadeOut 1s forwards;  /* Apply the animation for 5 seconds */
+        }
+
+        @keyframes pixelateFadeOut {
+            0% {
+                opacity: 0;
+                filter: none; /* No pixelation */
+            }
+            25% {
+                opacity: 0.25;
+                filter: url(#pixelate); /* Start applying pixelation */
+            }
+            50% {
+                opacity: 0.5;
+                filter: url(#pixelate); /* Keep pixelation going */
+            }
+            75% {
+                opacity: 0.75;
+                filter: url(#pixelate); /* Continue with pixelation */
+            }
+            100% {
+                opacity: 1;
+                filter: url(#pixelate); /* Full opacity, full pixelation */
+            }
+        }
+
+        /* SVG Pixelation filter */
+        svg {
+            position: absolute;
+            width: 0;
+            height: 0;
         }
     </style>
 </head>
-<body style="background-color: #FDFADF;">
-    <div class="overlay-list">› Artists<br>› Clowns<br>› Designers<br>› Writers<br>› Dramaturgs<br>› Performers<br>› Reptile Handlers<br>&nbsp;&nbsp;&nbsp;&nbsp;(and more)<br><span style="line-height: 2;">Wanted.</span></div>
+<body>
+    <div id="welcomePopup" class="popup" onclick="closePopup()">
+        Welcome to Country
+    </div>
+
     <h1>ANTI&nbsp;&nbsp;&nbsp;&nbsp;FREEZE</h1>
     <div class="subtext">
         <i>(*25)</i>
-        <span class="body-text">&nbsp;&nbsp;&nbsp;A Curated Journal, performed in Meanjin.</span>
+        <span class="subtitle">&nbsp;&nbsp;&nbsp;A Curated Journal, performed in Meanjin.</span>
     </div>
-    <div class="overlay-text">trying to do</div>
-    <div class="overlay-text-2">and trying to talk about it.</div>
-    <!-- <div class="contact" onclick="copyToClipboard(this)">antifreezejournal@gmail.com</div>
-    <p id="copy-message" style="display: none; color: green; position: absolute; top: 85%; left: 50%; transform: translate(-50%, -50%);">Copied!</p> -->
-    <footer class="menu">
-        <a href="index.html">Home</a>&nbsp;&nbsp;&nbsp;&nbsp;
-        <a href="submit.html">Submit</a>&nbsp;&nbsp;&nbsp;&nbsp;
-        <a href="contact.html">Contact</a>&nbsp;&nbsp;&nbsp;&nbsp;
-        <a href="archive.html">Archive</a>
-    </footer>
+    <div class="overlay1">trying to do</div>
+    <div class="overlay2">and trying to talk about it.</div>
+
+    <!-- SVG Filter for Pixelation -->
+    <svg>
+        <defs>
+            <filter id="pixelate">
+                <feComponentTransfer>
+                    <feFuncR type="table" tableValues="0 1" />
+                    <feFuncG type="table" tableValues="0 1" />
+                    <feFuncB type="table" tableValues="0 1" />
+                </feComponentTransfer>
+                <feGaussianBlur stdDeviation="5" result="blurred"/> <!-- Add blur for a stronger effect -->
+                <feComponentTransfer in="blurred">
+                    <feFuncR type="table" tableValues="0 1" />
+                    <feFuncG type="table" tableValues="0 1" />
+                    <feFuncB type="table" tableValues="0 1" />
+                </feComponentTransfer>
+            </filter>
+        </defs>
+    </svg>
+    
+
+    <!-- Pixelated overlay for animation -->
+    <div class="pixelate-effect"></div>
 </body>
 </html>
