@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ANTI FREEZE</title>
     <link rel="icon" href="favicon.png" type="image/png">
+    <link rel="preload" href="bg_invert.png" as="image">
     
     <script>
         function isMobile() {
@@ -45,7 +46,7 @@
                         return;
                     case 2:
                         body.classList.add("invert");
-                        setTimeout(updateStep, 200);
+                        setTimeout(updateStep, 1000);
                         return;
                     case 3:
                         body.classList.remove("invert");
@@ -61,14 +62,6 @@
                         overlayText.classList.add("invisible");
                         setTimeout(updateStep, 200);
                         return;
-                    // case 6:
-                    //     body.classList.add("invert");
-                    //     setTimeout(updateStep, 200);
-                    //     return;
-                    // case 7:
-                    //     body.classList.remove("invert");
-                    //     setTimeout(updateStep, 200);
-                    //     return;
                     case 6:
                         body.classList.add("invert");
                         setTimeout(updateStep, 200);
@@ -116,13 +109,11 @@
                             window.location.href = 'submit.html';  // Redirect after animation
                         }, 1000);  // Increased time to allow for the multi-step fade-out animation
                         return;
-
-
                     default:
                         break;
                 }
             }
-
+            
             updateStep();
         }
     </script>
@@ -213,12 +204,12 @@
 
         /* Invert background and text color */
         body.invert .overlay1 {
-            background-color: #080424;  /* Inverted background color */
+            background-color: #050320;  /* Inverted background color */
         }
 
         body.invert .overlay1.invisible {
-            color: #080424;  /* Invert text color to match the background */
-            background-color: #080424;  /* Match background for invisible state */
+            color: #050320;  /* Invert text color to match the background */
+            background-color: #050320;  /* Match background for invisible state */
         }
 
         .overlay2 {
@@ -265,37 +256,30 @@
         /* Fade-out animation with pixelation */
         .pixelate-effect.fade-out {
             display: block;
-            animation: pixelateFadeOut 1s forwards;  /* Apply the animation for 5 seconds */
+            animation: pixelateFadeOut 1s forwards;
         }
 
         @keyframes pixelateFadeOut {
             0% {
                 opacity: 0;
-                filter: none; /* No pixelation */
+                filter: none;
             }
             25% {
                 opacity: 0.25;
-                filter: url(#pixelate); /* Start applying pixelation */
+                filter: blur(2vw);
             }
             50% {
                 opacity: 0.5;
-                filter: url(#pixelate); /* Keep pixelation going */
+                filter: blur(4vw);
             }
             75% {
                 opacity: 0.75;
-                filter: url(#pixelate); /* Continue with pixelation */
+                filter: blur(6vw);
             }
             100% {
                 opacity: 1;
-                filter: url(#pixelate); /* Full opacity, full pixelation */
+                filter: blur(8vw);
             }
-        }
-
-        /* SVG Pixelation filter */
-        svg {
-            position: absolute;
-            width: 0;
-            height: 0;
         }
     </style>
 </head>
@@ -311,26 +295,6 @@
     </div>
     <div class="overlay1">trying to do</div>
     <div class="overlay2">and trying to talk about it.</div>
-
-    <!-- SVG Filter for Pixelation -->
-    <svg>
-        <defs>
-            <filter id="pixelate">
-                <feComponentTransfer>
-                    <feFuncR type="table" tableValues="0 1" />
-                    <feFuncG type="table" tableValues="0 1" />
-                    <feFuncB type="table" tableValues="0 1" />
-                </feComponentTransfer>
-                <feGaussianBlur stdDeviation="5" result="blurred"/> <!-- Add blur for a stronger effect -->
-                <feComponentTransfer in="blurred">
-                    <feFuncR type="table" tableValues="0 1" />
-                    <feFuncG type="table" tableValues="0 1" />
-                    <feFuncB type="table" tableValues="0 1" />
-                </feComponentTransfer>
-            </filter>
-        </defs>
-    </svg>
-    
 
     <!-- Pixelated overlay for animation -->
     <div class="pixelate-effect"></div>
