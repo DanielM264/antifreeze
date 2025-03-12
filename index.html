@@ -101,13 +101,13 @@
                         bodyText.classList.add("visible");
                         setTimeout(updateStep, 2000);
                         return;
-                    case 15: // trigger pixelate fade-out effect and redirect
+                    case 15: // trigger fade-out effect and redirect
                         const pixelateEffect = document.querySelector(".pixelate-effect");
-                        pixelateEffect.classList.add("fade-out");  // Apply the pixelation effect
+                        pixelateEffect.classList.add("fade-out");
 
                         setTimeout(function() {
-                            window.location.href = 'submit.html';  // Redirect after animation
-                        }, 1000);  // Increased time to allow for the multi-step fade-out animation
+                            window.location.href = 'submit.html'; 
+                        }, 1000);
                         return;
                     default:
                         break;
@@ -253,7 +253,7 @@
             opacity: 0;  /* Initially hidden */
         }
 
-        /* Fade-out animation with pixelation */
+        /* Fade-out animation */
         .pixelate-effect.fade-out {
             display: block;
             animation: pixelateFadeOut 1s forwards;
@@ -262,23 +262,18 @@
         @keyframes pixelateFadeOut {
             0% {
                 opacity: 0;
-                filter: none;
             }
             25% {
                 opacity: 0.25;
-                filter: blur(2vw);
             }
             50% {
                 opacity: 0.5;
-                filter: blur(4vw);
             }
             75% {
                 opacity: 0.75;
-                filter: blur(6vw);
             }
             100% {
                 opacity: 1;
-                filter: blur(8vw);
             }
         }
     </style>
@@ -293,6 +288,7 @@
         <i>(*25)</i>
         <span class="subtitle">&nbsp;&nbsp;&nbsp;A Curated Journal, performed in Meanjin.</span>
     </div>
+
     <div class="overlay1">trying to do</div>
     <div class="overlay2">and trying to talk about it.</div>
 
